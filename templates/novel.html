@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>novel</title>
+
+    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <script src="../static/jquery-3.2.0.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+
+    <style>
+        .novel-name{
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .author-name{
+            display: inline-block;
+            margin-left:5px;
+        }
+        .fengmian{
+            width: 100%;
+            height: 100%;
+        }
+
+        .div{
+            width: 100%;
+            height:160px;
+            margin-left: 0px;
+            margin-top: 25px;
+            padding: 0px;
+        }
+        .ulstyle{
+            list-style-type: none;
+            margin-top: 0px;
+            margin-left:0px;
+            height:60px;
+            padding: 0px;
+        }
+        .listyle{
+            width: 90px;
+            height: 40px;
+            float: left;
+            padding: 0px;
+        }
+        .zpjj{
+            width: 100%;
+            height: 100px;
+        }
+        .div1{
+            width: 100%;
+            height: 85px;
+            margin-left: 0px;
+            margin-top: 20px;
+            padding: 0px;
+        }
+        .submit1{
+            background-color: #5cb85c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="margin-top: 5%" >
+    <div class="row clearfix" >
+        <div class="col-md-6 column">
+
+            <img class="fengmian" src="../static/kuli.jpg" alt="fengmian">
+        </div>
+        <div class="col-md-6 column">
+            <h1 class="novel-name">作品名</h1>
+            <h4 class="author-name">作者名</h4>
+             <div >
+                 <div class="div">
+                     <ul class="ulstyle"><li ><h1>类别</h1></li>
+                         <li class="ulstyle listyle"><h4>爬虫去</h4></li>
+                         <li class="ulstyle listyle"><h4>爬虫去</h4></li>
+                         <li class="ulstyle listyle"><h4>爬虫去</h4></li>
+                     </ul>
+                 </div>
+                 <div class="div1">
+
+                     <div style="float: right">
+                         <button type="submit" class="btn btn-success" id="novel" style="font-size: 30px">read</button>
+                         <button type="submit" class="btn btn-primary" id="author" style="font-size: 30px">download</button>
+                     </div>
+                 </div>
+             </div>
+        </div>
+
+        <div class="col-md-12 column" style="margin-top: auto" >
+            <div class="tabbable" id="tabs-93718" style="margin-top: 15px">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#" data-toggle="tab">作品信息</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="zpjj" style="margin-top: 15px">
+                作品简介内容
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
