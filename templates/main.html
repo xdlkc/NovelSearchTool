@@ -21,6 +21,12 @@
             display: inline-block;
         }
 
+        .tab_content{
+            background-color: #e0d1db;
+
+            margin-top: 5%;
+        }
+
     </style>
 </head>
 <body>
@@ -28,12 +34,15 @@
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
+            <div class="container">
+
+
             <ul class="nav nav-tabs">
                 <li >
                     <a href="main.html">首页</a>
                 </li>
                 <li>
-                    <a href="jianjie.html">简介</a>
+                    <a data-toggle="tab" href="#jianjie">简介</a>
                 </li>
                 <li>
                     <a href="xinxi.html">信息</a>
@@ -48,7 +57,13 @@
                 </li>
             </ul>
 
+             <div class="tab-content">
+                 <div id="jianjie" class="tab-pane fade">
+                     <h1 style="text-align: center;position: relative;z-index: 2;background-color: #85287c">我们只是内容的搬运工</h1>
+                 </div>
+             </div>
 
+        </div>
         </div>
     </div>
 </div>
@@ -60,20 +75,29 @@
 <div class="container" align="center">
     <form role="form"  action="/novel_search" method="post">
         <input type="text" class="form-control text1" name="content" placeholder="请输入小说名或作者">
-        <button type="submit" class="btn btn-success" name="novel">novel</button>
-        <button type="submit" class="btn btn-primary" name="author">author</button>
+        <button type="submit" class="btn btn-success" name="novel">搜索</button>
     </form>
 </div>
 
-<div class="container" style="margin-top: 5%">
-    <div class="row clearfix">
-        <div class="col-md-6 column" style="text-align: center">
-            <a href="author.html"> <h4>作者</h4></a>
+<div class="container tab_content">
+    <ul class="nav nav-tabs ">
+        <li ><a data-toggle="tab" href="#">推荐</a></li>
+        <li class="active"><a data-toggle="tab" href="#menu1">作者</a></li>
+        <li><a data-toggle="tab" href="#menu2">类别</a></li>
 
+    </ul><hr>
+
+    <div class=" tab-content ">
+
+        <div id="menu1" class="tab-pane fade in active">
+            <h3>作者</h3>
+            <p>我们应该在这里推荐一些内容</p>
         </div>
-        <div class="col-md-6 column" style="text-align: center">
-            <a href="type.html" ><h4>类别</h4></a>
+        <div id="menu2" class="tab-pane fade">
+            <h3>类别</h3>
+            <p>我们应该在这里推荐一些内容</p>
         </div>
+
     </div>
 </div>
 

@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>搜索结果</title>
-</head>
-
-<link type="text/css" rel="stylesheet" href="../static/css/bootstrap.min.css">
-<script src="../static/jquery-3.2.0.min.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
-
+{% extends "base.html" %}
+{% block main %}
 <style>
     .text1{
         width: 85%;
@@ -19,13 +10,10 @@
         margin: 20px;
     }
 </style>
-
-<body>
-
 <div class="container">
-    <form role="form" style="margin-top: 20px">
-        <input   type="text" class="form-control text1" id="content" placeholder="请输入小说类型">
-        <button type="submit" class="btn btn-success" id="novel">novel</button>
+    <form role="form" style="margin-top: 20px" action="/novel_search" method="post">
+        <input   type="text" class="form-control text1" name="content" placeholder="请输入小说名或作者">
+        <button type="submit" class="btn btn-success" id="novel">搜索</button>
     </form>
 </div>
 <div class="container">
@@ -33,7 +21,7 @@
         <div class="col-md-12 column">
                 <div id="in">
                     {% for n in novel %}
-                        <div id="add">
+                        <div class="line">
                             <br>
                             <a target="_blank" href={{ n.link }} >
                                 <img src={{ n.pic }} height="100px" />
@@ -46,6 +34,10 @@
                             </a>
                             <span style="font-size: large" class="h3_xing">{{ n.type }}</span>
                             <h4 class="h3_xing"><a target="_blank" href={{ n.link }}>详细信息</a> </h4>
+
+                            <form method="post" action= {{ "/novel_search/download/"+n.name }}>
+                                <button type="submit" name="download" value="">下载</button>
+                            </form>
                         </div>
                     {% endfor %}
                     <hr>
@@ -54,6 +46,7 @@
     </div>
 </div>
 
+
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -61,62 +54,43 @@
                 <li class="disable">
                     <a href="#">Prev</a>
                 </li>
-                <li>
-                    <a href="javascript:new1()">1</a>
+                <li style="display: inline-block">
+                    <form action="/novel_search/page=1">
+                        <button type="submit">1</button>
+                    </form>
                 </li>
-                <li>
-                    <a href="javascript:new1()">2</a>
+                <li style="display: inline-block">
+                    <form action="/novel_search/page=2">
+                        <button type="submit">2</button>
+                    </form>
                 </li>
-                <li>
-                    <a href="javascript:new1()">3</a>
+                <li style="display: inline-block">
+                    <form action="/novel_search/page=3">
+                        <button type="submit">3</button>
+                    </form>
                 </li>
-                <li>
-                    <a href="javascript:new1()">4</a>
+                <li style="display: inline-block">
+                    <form action="/novel_search/page=4">
+                        <button type="submit">4</button>
+                    </form>
                 </li>
-                <li>
-                    <a href="javascript:new1()">5</a>
+                <li style="display: inline-block">
+                    <form action="/novel_search/page=5">
+                        <button type="submit">5</button>
+                    </form>
                 </li>
-                <li>
-                    <a href="javascript:new1()">Next</a>
+                <li style="display: inline-block">
+                    <form id="next" action="next">
+                        <button type="submit">Next</button>
+                    </form>
                 </li>
             </ul>
         </div>
     </div>
 </div>
-
 <script>
-
-
-function view() {
-var out=document.getElementById("out");
-var inside=document.getElementById("in");
-//alert(inside.childNodes.length);
-for(var i=0;i<5;i++){
-for(var i=1;i<5;i++){
-    var div = $('#in');
-    $('#in').append(div);
-}
-}
-}
-function reset() {
-window.scrollTo(0,0);
-var inside=document.getElementById("in");
-whlie(inside.hasChildNodes())
-{
-inside.removeChild(inside.lastChild);
-}
-}
-
-function new1() {
-reset();
-view();
-
-}
-
-view();
 
 
 
 </script>
-</body>
-</html>
+{% endblock %}
