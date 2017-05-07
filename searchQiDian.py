@@ -22,7 +22,6 @@ def search(str):
     str = str.replace("\n","").replace(" ","")
     base_url = "http://se.qidian.com/?kw="+quote(str) + "&page="
     url =base_url + "{}".format(page_count)
-
     while True:
         url = urlopen(url)
         bs = BeautifulSoup(url, "lxml")
@@ -44,56 +43,20 @@ def search(str):
             pic.append(temp)
             temp = i.find("p", {"class": "author"}).findAll("a")[0].attrs["href"]
             writer_link.append(temp)
+        if page_count == 10:
+            break
         page_count += 1
         url = base_url + "{}".format(page_count)
     return [name, writer, type, link, pic, writer_link]
 
-    # str_dire = r"f:\novel\{}".format(str)
-    # if not os.path.exists(str_dire):
-    #     os.mkdir(str_dire)
-    # for i in range(len(link)):
-    #     if "http" in link[i]:
-    #         continue
-    #     url = "http:"+link[i]+"#Catalog"
-    #     directory = r"f:\novel\{}\{}".format(str, name[i])
-    #     print("{}开始下载".format(name[i]))
-    #     if not os.path.exists(directory):
-    #         os.mkdir(directory)
-    #     url = urlopen(url)
-    #
-    #     bs = BeautifulSoup(url,"lxml")
-    #     try:
-    #         f = bs.findAll("div",{"class":"volume-wrap"})
-    #     except AttributeError as e:
-    #         # print(e)
-    #         continue
-    #     for fi in f:
-    #         if  "免费" not in fi.find("h3").find("span").getText() :
-    #             continue
-    #         for fii in fi.findAll("li",{"data-rid":re.compile(r'\d*')}):
-    #             chapter_name = fii.getText("\n").replace("\n","")
-    #             chapter_dire = r"{}\{}.txt".format(directory,chapter_name)
-    #             chapter_file = open(chapter_dire, 'wb+')
-    #             try:
-    #                 chapter_url = "http:" + fii.find("a").attrs["href"]
-    #                 # print(chapter_url)
-    #                 chapter_url = urlopen(chapter_url)
-    #                 chapter_bs = BeautifulSoup(chapter_url, "lxml")
-    #                 chapter_book = chapter_bs.find("div", {"class": "read-content j_readContent"})
-    #                 chapter_file.write(chapter_book.getText("\n").encode("gbk","ignore"))
-    #                 print(chapter_url)
-    #             except AttributeError as e:
-    #                 continue
-    #             finally:
-    #                 chapter_file.close()
-    #     print("{}下载成功,保存在{}目录下".format(name[i], directory))
-    #
 def download(novel):
-    str_dire = r"/home/lkc/code/python/PycharmProjects/flask2/books/{}/".format(novel.name)
+    str_dire = r"/home/lkc/code/python/PycharmProjects/flask2/static/books/{}".format(novel.name)
     link = novel.link
     name = novel.name
     if not os.path.exists(str_dire):
         os.mkdir(str_dire)
+    else:
+        return r'/home/lkc/code/python/PycharmProjects/flask2/static/books/{}'.format(name)
     if "http" in link:
         url = link + "#Catalog"
     else:
@@ -125,15 +88,15 @@ def download(novel):
                 continue
             finally:
                 chapter_file.close()
-    return r'/home/lkc/code/python/PycharmProjects/flask2/books/{}/'.format(name)
+    return r'/home/lkc/code/python/PycharmProjects/flask2/static/books/{}'.format(name)
 
 # 压缩小说
 def zipBook(name):
-    dire = r'/home/lkc/code/python/PycharmProjects/flask2/books/{}'.format(name)
+    dire = r'/home/lkc/code/python/PycharmProjects/flask2/static/books/{}'.format(name)
     z = zipfile.ZipFile(dire+".zip", 'w')
     if os.path.isdir(dire):
         for d in os.listdir(dire):
-            z.write(dire + os.sep + d)
+            z.write(dire + os.sep + d, name+os.sep+d)
         z.close()
     return dire + ".zip"
 if __name__ == '__main__':

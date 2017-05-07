@@ -9,6 +9,9 @@ import json
 app = Flask(__name__)
 pa = 1
 n_list = []
+# host = " "
+port = 5000
+host = "127.0.0.1"
 
 @app.route('/')
 def index():
@@ -27,23 +30,8 @@ def search_novel():
         n = Novel(novel_list[0][i], novel_list[1][i],novel_list[2][i],novel_list[3][i],novel_list[4][i], novel_list[5][i])
         n_list.append(n)
     # return render_template('search_result.html',text=text, novel=n_list)
-    return render_template("search_result.html",novel=n_list[0:10])
-n = []
-@app.route('/novel_search/page=<int:page>')
-def part_page(page=1):
-    if page*10 > len(n_list):
-        abort(404)
-    else:
-        pa = page
-        return render_template('search_result.html', novel=n_list[(page-1)*10 : page*10])
+    return render_template("search_result.html",novel=json.dumps(n_list,default=convert))
 
-@app.route('/novel_search/page_next')
-def next():
-    if pa > 5:
-        abort(404)
-    else:
-        return render_template('search_result.html',novel=n_list[pa*10 : (pa+1)*10])
-n = 87
 @app.route('/author.html')
 def author():
     return render_template("author.html")
@@ -64,13 +52,16 @@ def do(name):
             index = i
             break
     name = n_list[index].name
+    download(n_list[index])
     dire = zipBook(name)
-    return render_template("download.html")
+    dire = "http://{}:{}/static/books/{}.zip".format(host,port,name)
+    return render_template("download.html",dire=dire,name=name)
 
+# 转化json对象
 def convert(obj):
     d = {}
     d.update(obj.__dict__)
     return d
 
 if __name__ == "__main__":
-    app.run(debug=True,port=5000)
+    app.run(debug=True,port=port,host=host)

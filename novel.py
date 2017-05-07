@@ -1,11 +1,12 @@
 '''
 小说信息结构体
+小说名     作者      种类      链接      封面      作者链接          
 '''
 class Novel(object):
-    def __init__(self, name='', writer='', type='', link='', pic='', writer_link=''):
+    def __init__(self, name='', author='', kind='', link='', pic='', author_link=''):
         self.name = name
-        self.writter = writer
-        self.type = type
-        self.link = "http:"+link
-        self.pic = "http:" + pic
-        self.writer_link = writer_link
+        self.author = author
+        self.kind = kind
+        self.link = link
+        self.pic = pic
+        self.author_link = author_link
