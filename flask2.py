@@ -7,8 +7,6 @@ from searchQiDian import *
 import json
 
 app = Flask(__name__)
-pa = 1
-n_list = []
 # host = " "
 port = 5000
 host = "127.0.0.1"
@@ -23,14 +21,14 @@ def index1():
 
 @app.route('/novel_search',methods=['POST'])
 def search_novel():
-    form = request.form
-    text = form.get('content')
+    text = request.form.get('content')
+    l = []
     novel_list = search(text)
     for i in range(len(novel_list[0])):
         n = Novel(novel_list[0][i], novel_list[1][i],novel_list[2][i],novel_list[3][i],novel_list[4][i], novel_list[5][i])
-        n_list.append(n)
+        l.append(n)
     # return render_template('search_result.html',text=text, novel=n_list)
-    return render_template("search_result.html",novel=json.dumps(n_list,default=convert))
+    return render_template("search_result.html",novel=json.dumps(l,default=convert))
 
 @app.route('/author.html')
 def author():
