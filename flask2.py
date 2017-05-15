@@ -1,34 +1,45 @@
 '''
 服务器后台
 '''
-from flask import Flask,render_template,url_for,request,send_file,jsonify,abort
+from flask import Flask,render_template,url_for,request,send_file,jsonify,abort,redirect
 from novel import Novel
 from searchQiDian import *
 import json
 
 app = Flask(__name__)
-# host = " "
-port = 5000
-host = "127.0.0.1"
+port = 80
+host = "10.177.68.13"
+
+def downloads(dire,name):
+    return render_template("download.html",dire=dire,name=name)
 
 @app.route('/')
+@app.route('/main.html')
 def index():
     return render_template('main.html')
 
-@app.route('/main.html')
-def index1():
-    return render_template('main.html')
 
-@app.route('/novel_search',methods=['POST'])
-def search_novel():
+@app.route('/novel_search/<key>',methods=['POST'])
+def search_novel(key):
     text = request.form.get('content')
-    l = []
-    novel_list = search(text)
-    for i in range(len(novel_list[0])):
-        n = Novel(novel_list[0][i], novel_list[1][i],novel_list[2][i],novel_list[3][i],novel_list[4][i], novel_list[5][i])
-        l.append(n)
-    # return render_template('search_result.html',text=text, novel=n_list)
-    return render_template("search_result.html",novel=json.dumps(l,default=convert))
+    text = r"{}".format(text)
+    novel = search(text)
+    if not novel:
+        return render_template("NoResult.html")
+    return render_template("search_result.html",novel=json.dumps(novel,default=convert))
+
+@app.route('/novel_search/<key>/download/<author>/<name>', methods=['POST'])
+def do(key,author, name):
+    fp = open("{}/key/{}.txt".format(sys.path[0],key),'r')
+    for f in fp.readlines():
+        l = f.split(" ")
+        if l[0] == name and l[1] == author:
+            novel = Novel(l[0],l[1],l[2],l[4],l[3],l[5])
+            download(novel)
+    fp.close()
+    zipBook(name)
+    dire = "http://{}:{}/static/books/{}.zip".format(host,port,name)
+    return render_template("download.html",dire=dire,name=name)
 
 @app.route('/author.html')
 def author():
@@ -42,19 +53,6 @@ def xinxi():
 def jianjie():
     return render_template('jianjie.html')
 
-@app.route('/novel_search/download/<name>', methods=['POST'])
-def do(name):
-    index = 0
-    for i in range(len(n_list)):
-        if n_list[i].name == name:
-            index = i
-            break
-    name = n_list[index].name
-    download(n_list[index])
-    dire = zipBook(name)
-    dire = "http://{}:{}/static/books/{}.zip".format(host,port,name)
-    return render_template("download.html",dire=dire,name=name)
-
 # 转化json对象
 def convert(obj):
     d = {}
@@ -62,4 +60,4 @@ def convert(obj):
     return d
 
 if __name__ == "__main__":
-    app.run(debug=True,port=port,host=host)
+    app.run(port=port,host=host)

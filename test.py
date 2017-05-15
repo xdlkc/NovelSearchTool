@@ -3,11 +3,18 @@ import zipfile
 from bs4 import BeautifulSoup
 import re
 from urllib.request import urlopen
+from selenium import webdriver
 import os
 from novel import Novel
-from urllib.request import quote
-from searchNovelAll import search
-novel = search("斗破苍穹")
-for i in novel:
-    print("{}   {}  {}".format(i.name,i.link,i.kind))
-    print("{}   {}  {}".format(i.pic, i.author_link, i.author))
+import sys
+pphjs_path = r"F:\phantomjs-2.1.1-windows\bin\phantomjs.exe"
+driver = webdriver.PhantomJS(executable_path=pphjs_path)
+url = "http://book.qidian.com/info/1209977#Catalog"
+driver.get(url)
+
+url = urlopen(url)
+bs = BeautifulSoup(url,'html.parser')
+print(bs.find("div",{"class":"volume"}))
+#
+# i = driver.find_element_by_class_name("volume").text
+# print(i)

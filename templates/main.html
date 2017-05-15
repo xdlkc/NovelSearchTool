@@ -45,9 +45,9 @@
 </div>
 
 <div class="container" align="center">
-    <form role="form"  action="/novel_search" method="post">
-        <input type="text" class="form-control text1" name="content" placeholder="请输入小说名或作者">
-        <button type="submit" class="btn btn-success" name="novel">搜索</button>
+    <form role="form" id="form_bu" action="#" onsubmit="a()" method="post">
+        <input type="text" id="input_1" class="form-control text1" name="content" placeholder="请输入小说名或作者">
+        <button type="submit" id="button_1" class="btn btn-success" name="novel">搜索</button>
     </form>
 </div>
 
@@ -72,7 +72,14 @@
 
     </div>
 </div>
-
+<script>
+    function a() {
+            var form=$("#form_bu");
+         var content=$("#input_1").val();
+        form.attr("action","/novel_search/"+content);
+        console.log(form.attr("action"));
+    }
+</script>
 
 </body>
 {%  endblock %}
