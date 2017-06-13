@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block main %}
+
+<body>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="container">
+
+
+            <ul class="nav nav-tabs">
+                <li >
+                    <a href="main.html">首页</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#jianjie">简介</a>
+                </li>
+                <li>
+                    <a href="team_introduce.html">信息</a>
+                </li>
+                <li class="dropdown pull-right">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">下拉
+                    <strong class="caret"></strong> </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">操作</a></li>
+                        <li><a href="#">设置</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+             <div class="tab-content">
+                 <div id="jianjie" class="tab-pane fade">
+                     <h1 style="text-align: center;position: relative;z-index: 2;background-color: #85287c">我们只是内容的搬运工</h1>
+                 </div>
+             </div>
+
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <img    class="img-rounded img1" src="../static/kuli.jpg">
+</div>
+
+<div class="container" align="center">
+    <form role="form" id="form_bu" action="#" onsubmit="a()" method="post">
+        <input type="text" id="input_1" class="form-control text1" name="content" placeholder="请输入小说名或作者">
+        <button type="submit" id="button_1" class="btn btn-success" name="novel">搜索</button>
+    </form>
+</div>
+
+<div class="container tab_content">
+    <ul class="nav nav-tabs ">
+        <li ><a data-toggle="tab" href="#">推荐</a></li>
+        <li class="active"><a data-toggle="tab" href="#menu1">作者</a></li>
+        <li><a data-toggle="tab" href="#menu2">类别</a></li>
+
+    </ul><hr>
+
+    <div class=" tab-content ">
+
+        <div id="menu1" class="tab-pane fade in active">
+            <h3>作者</h3>
+            <p>我们应该在这里推荐一些内容</p>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <h3>类别</h3>
+            <p>我们应该在这里推荐一些内容</p>
+        </div>
+
+    </div>
+</div>
+<script>
+    function a() {
+            var form=$("#form_bu");
+         var content=$("#input_1").val();
+        form.attr("action","/novel_search/"+content);
+        console.log(form.attr("action"));
+    }
+</script>
+
+</body>
+{%  endblock %}
