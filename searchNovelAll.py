@@ -6,7 +6,11 @@ import re
 from urllib.request import urlopen
 import os
 from urllib.request import quote
+<<<<<<< HEAD
 from novel_struct import Novel
+=======
+from novel import Novel
+>>>>>>> 4ab5d52eccd3f0a35d7b35e1dc38c777edd9cf26
 from selenium import webdriver
 
 def search(str):

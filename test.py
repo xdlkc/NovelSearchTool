@@ -5,7 +5,11 @@ import re
 from urllib.request import urlopen
 from selenium import webdriver
 import os
+<<<<<<< HEAD
 from novel_struct import Novel
+=======
+from novel import Novel
+>>>>>>> 4ab5d52eccd3f0a35d7b35e1dc38c777edd9cf26
 import sys
 pphjs_path = r"F:\phantomjs-2.1.1-windows\bin\phantomjs.exe"
 driver = webdriver.PhantomJS(executable_path=pphjs_path)

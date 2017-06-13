@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+{% block main %}
+<style>
+    .text1{
+        width: 85%;
+        display: inline-block;
+    }
+    .h3_xing{
+        display: inline-block;
+        margin: 20px;
+    }
+</style>
+
+<div class="container" align="center">
+    <form role="form" id="form_bu" action="#" onsubmit="a()" method="post">
+        <input type="text" id="input_1" class="form-control text1" name="content" placeholder="请输入小说名或作者">
+        <button type="submit" id="button_1" class="btn btn-success" name="novel">搜索</button>
+    </form>
+</div>
+<script>
+    function a() {
+            var form=$("#form_bu");
+         var content=$("#input_1").val();
+        form.attr("action","/novel_search/"+content);
+        console.log(form.attr("action"));
+    }
+</script>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="container" id="out">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="pagination">
+
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var str= "{{ novel }}"
+    var str1=str.slice(1,str.length-1);
+    var result=str1.replace(/&#34;/g,"\"");
+    var text=result.split("}");
+{#    console.log(text);#}
+    for(var i=0;i<text.length;i++){
+        if(i==0){
+            var resu0=text[i].concat("}");
+
+            text[i]=resu0;
+        }
+        else if(i==text.length-1){
+            delete text[i];
+        }
+        else {
+            var resu=text[i].concat("}");
+            text[i]=resu.slice(1);
+        }
+    }            //处理数据，并将其转为json对象
+    delete resu0;
+    delete resu;
+    for(var i=0;i<text.length-1;i++){
+        var obj=JSON.parse(text[i]);
+        text[i]=obj;
+    }
+    delete i;
+    delete str;
+    delete str1;
+    delete result;
+
+    var now_page=1;//当前页面
+
+    var page=Math.ceil((text.length-1)/10);//页数
+
+
+    var in_content=$("#out");//初始化页面
+    for (var i = 0; i < 10; i++) {
+        a();
+    }
+    delete i;
+    window.scrollTo(0,0);
+
+    var prev=$("<li></li>")//增加prev标签
+    var a=$("<a></a>");
+    a.attr("id","prev");
+    a.text("Prev");
+    prev.append(a);
+    $(".pagination").append(prev);
+    delete prev;
+    delete a;
+
+    for(var page_i=1;page_i<page+1;page_i++){
+        var li=$("<li></li>")
+        var a=$("<a></a>");
+        a.attr("id","button"+page_i);
+        a.text(page_i);
+        li.append(a);
+        $(".pagination").append(li);
+
+        !function (page_i) {
+            var acli=document.getElementById("button"+page_i);
+            acli.onclick=function () {
+                now_page=page_i;
+{#                console.log(now_page);#}
+                window.scrollTo(0,0);
+                var in_content=$("#out");
+                in_content.empty();
+                if(page_i<page) {
+                    for (var i = (page_i-1)*10; i < (page_i-1)*10+10; i++) {
+
+                        in_content.append("<br>");
+
+                        var div_img = $("<div></div>");
+                        div_img.css("display", "inline-block");
+
+                        var img = $("<img>");
+                        img.attr("src", text[i].pic);
+                        img.css("display", "inline-block");
+                        div_img.append(img);
+
+                        in_content.append(div_img);
+
+                        var div_content = $("<div></div>");
+                        div_content.css("display", "inline-block");
+                        div_content.css("margin-left", "100px");
+
+                        var h3 = $("<h2></h2>");
+                        var book = $("<a></a>");
+                        book.attr("class", "name");
+                        book.attr("href", text[i].link);
+                        book.text(decodeURIComponent(text[i].name));
+                        book.attr("target","_blank")
+                        h3.append(book);
+                        //in_content.append(h3);
+
+                        h3.append($("<br>"));
+                        h3.append($("<br>"));
+                        div_content.append(h3);
+
+                        var author = $("<a></a>");
+                        author.attr("href", text[i].author_link);
+                        author.text(decodeURIComponent(text[i].author));
+                        author.attr("target","_blank")
+                        div_content.append(author);
+
+                        var type = $("<a></a>");
+                        type.css("margin-left", "50px");
+                        type.attr("href", "#");
+                        type.text(decodeURIComponent(text[i].kind));
+                        div_content.append(type);
+                        div_content.append($("<br>"));
+
+                        var div_form=$("<div></div>");
+                        div_form.css("display","inline-block");
+                        var form=$("<form></form>");
+                        form.css("display","inline-block");
+                        form.attr("method","post");
+                        var url=window.location.pathname;
+                        form.attr("action",url+"/download/"+text[i].author+"/"+text[i].name);
+                        form.attr("target","_blank")
+                        var button=$("<button></button>");
+                        button.css("display","inline-block");
+                        button.attr("type","sumbit");
+                        button.attr("name","download");
+                        button.text("下载");
+                        form.append(button);
+                        div_form.append(form);
+                        div_content.append(div_form);
+
+                        in_content.append(div_content);
+
+                        in_content.append("<hr>");
+
+                    }
+                }
+                else{
+                    for (var i = (page_i-1)*10; i < text.length-1; i++) {
+
+                        in_content.append("<br>");
+
+                        var div_img = $("<div></div>");
+                        div_img.css("display", "inline-block");
+
+                        var img = $("<img>");
+                        img.attr("src", text[i].pic);
+                        img.css("display", "inline-block");
+                        div_img.append(img);
+
+                        in_content.append(div_img);
+
+                        var div_content = $("<div></div>");
+                        div_content.css("display", "inline-block");
+                        div_content.css("margin-left", "100px");
+
+                        var h3 = $("<h2></h2>");
+                        var book = $("<a></a>");
+                        book.attr("class", "name");
+                        book.attr("href", text[i].link);
+                        book.text(decodeURIComponent(text[i].name));
+                        book.attr("target","_blank")
+                        h3.append(book);
+
+                        h3.append($("<br>"));
+                        h3.append($("<br>"));
+                        div_content.append(h3);
+
+                        var author = $("<a></a>");
+                        author.attr("href", text[i].author_link);
+                        author.text(decodeURIComponent(text[i].author));
+                        author.attr("target","_blank")
+                        div_content.append(author);
+
+                        var type = $("<a></a>");
+                        type.css("margin-left", "50px");
+                        type.attr("href", "#");
+                        type.text(decodeURIComponent(text[i].kind));
+                        div_content.append(type);
+                        div_content.append($("<br>"));
+
+                        var div_form=$("<div></div>");
+                        div_form.css("display","inline-block");
+                        var form=$("<form></form>");
+                        form.css("display","inline-block");
+                        form.attr("method","post");
+                        var url=window.location.pathname;
+                        form.attr("action",url+"/download/"+text[i].author+"/"+text[i].name);
+                        form.attr("target","_blank")
+                        var button=$("<button></button>");
+                        button.css("display","inline-block");
+                        button.attr("type","sumbit");
+                        button.attr("name","download");
+                        button.text("下载");
+                        form.append(button);
+                        div_form.append(form);
+                        div_content.append(div_form);
+
+                        in_content.append(div_content);
+                        in_content.append("<hr>");
+                    }
+                }
+            }
+        }(page_i);
+        delete page_i;
+        delete  i;
+    }//给底部增加页数标签并给其添加响应事件
+
+    var next=$("<li></li>")//增加next标签
+    var a=$("<a></a>");
+    a.attr("id","next");
+    a.text("Next");
+    next.append(a);
+    $(".pagination").append(next);
+    delete next;
+    delete a;
+
+    document.getElementById("prev").onclick=function () {//prev监听事件
+        if (now_page==1){
+            var a_now=document.getElementById("button"+now_page);
+            a_now.click();
+        }
+        else{
+            now_page--;
+            var a_now=document.getElementById("button"+now_page);
+            a_now.click();
+        }
+        delete a_now;
+    }
+
+    document.getElementById("next").onclick=function () {//next监听事件
+        if (now_page==page){
+            var a_now=document.getElementById("button"+now_page);
+            a_now.click();
+        }
+        else{
+            now_page++;
+            var a_now=document.getElementById("button"+now_page);
+            a_now.click();
+        }
+        delete  a_now;
+    }
+
+
+    function a() {
+        in_content.append("<br>");
+
+        var div_img = $("<div></div>");
+        div_img.css("display", "inline-block");
+
+        var img = $("<img>");
+        img.attr("src", text[i].pic);
+        img.css("display", "inline-block");
+        div_img.append(img);
+
+        in_content.append(div_img);
+
+        var div_content = $("<div></div>");
+        div_content.css("display", "inline-block");
+        div_content.css("margin-left", "100px");
+
+        var h3 = $("<h2></h2>");
+        var book = $("<a></a>");
+        book.attr("class", "name");
+        book.attr("href", text[i].link);
+        book.text(decodeURIComponent(text[i].name));
+        book.attr("target","_blank")
+        h3.append(book);
+        //in_content.append(h3);
+
+        h3.append($("<br>"));
+        h3.append($("<br>"));
+        div_content.append(h3);
+
+        var author = $("<a></a>");
+        author.attr("href", text[i].author_link);
+        author.text(decodeURIComponent(text[i].author));
+        author.attr("target","_blank")
+        div_content.append(author);
+
+        var type = $("<a></a>");
+        type.css("margin-left", "50px");
+        type.attr("href", "#");
+        type.text(decodeURIComponent(text[i].kind));
+        div_content.append(type);
+        div_content.append($("<br>"));
+
+        var div_form=$("<div></div>");
+        div_form.css("display","inline-block");
+        var url=window.location.pathname;
+        console.log(url);
+        var form=$("<form></form>");
+        form.css("display","inline-block");
+        form.attr("method","post");
+        var url=window.location.pathname;
+        form.attr("action",url+"/download/"+text[i].author+"/"+text[i].name);
+        form.attr("target","_blank")
+        var button=$("<button></button>");
+        button.css("display","inline-block");
+        button.attr("type","sumbit");
+        button.attr("name","download");
+        button.text("下载");
+        form.append(button);
+        div_form.append(form);
+        div_content.append(div_form);
+
+        in_content.append(div_content);
+
+        in_content.append("<hr>");
+
+
+    }
+</script>
+{% endblock %}

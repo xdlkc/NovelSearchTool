@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block main %}
+    <style>
+    .text1{
+        width: 85%;
+        display: inline-block;
+    }
+    .h3_xing{
+        display: inline-block;
+        margin: 20px;
+    }
+    #search_no{
+        margin-top: 20px;
+    }
+
+    #not_found{
+        margin-top: 14%;
+        text-align: center;
+    }
+    </style>
+    <div id="search_no" class="container" align="center">
+        <form role="form" id="form_bu" action="#" onsubmit="a()" method="post">
+            <input type="text" id="input_1" class="form-control text1" name="content" placeholder="请输入小说名或作者">
+            <button type="submit" id="button_1" class="btn btn-success" name="novel">搜索</button>
+        </form>
+    </div>
+    <div id="not_found"><h1>没有找到符合条件的书,请重新输入</h1> </div>
+
+{%  endblock %}
