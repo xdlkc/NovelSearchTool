@@ -1,3 +1,4 @@
 key/
 static/
 .idea/
+__pycache__/
