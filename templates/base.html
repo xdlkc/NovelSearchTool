@@ -1,12 +1,11 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>搜搜搜</title>
-    <link rel="shortcut  icon" type="image/x-icon" href="http://10.177.68.13:80/static/book.ico" media="screen"  />
-    <link type="text/css" rel="stylesheet" href="http://10.177.68.13:80/static/css/bootstrap.min.css">
-    <script src="http://10.177.68.13:80/static/jquery-3.2.0.min.js"></script>
-    <script src="http://10.177.68.13:80/static/js/bootstrap.min.js"></script>
+    <link rel="shortcut  icon" type="image/x-icon" href="{{url_for('static',filename='book.ico')}}" media="screen"  />
+    <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+    <script src="{{url_for('static',filename='jquery-3.2.0.min.js')}}"></script>
+    <script src=".{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
     <style>
         .img1{
 

@@ -1,13 +1,8 @@
-'''
+"""
 SoDu上搜索小说
-'''
-from bs4 import BeautifulSoup
-import re
-from urllib.request import urlopen
-import os
-from urllib.request import quote
-from novel_struct import Novel
+"""
 from selenium import webdriver
+
 
 def search(str):
     novel = []
@@ -33,6 +28,7 @@ def search(str):
     #     novel.append(Novel(name,author,kind,novel_link,pic,author_link))
     # return novel
     #
+
 
 if __name__ == '__main__':
     search("斗破苍穹")
