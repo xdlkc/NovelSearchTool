@@ -4,7 +4,6 @@
 import json
 
 from flask import Flask, render_template, request
-
 from biz.json_tool import convert_to_json
 from biz.zip import zipBook
 from control.search_and_download import *
@@ -54,13 +53,13 @@ def author():
 
 
 @app.route('/team_introduce.html')
-def xinxi():
+def team_introduce():
     return render_template('team_introduce.html')
 
 
-@app.route('/jianjie.html')
-def jianjie():
-    return render_template('jianjie.html')
+@app.route('/introduce.html')
+def introduce():
+    return render_template('introduce.html')
 
 
 if __name__ == "__main__":
