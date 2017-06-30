@@ -9,8 +9,8 @@ from biz.zip import zipBook
 from control.search_and_download import *
 
 app = Flask(__name__)
-port = 5000
-host = "192.168.0.104"
+port = 12138
+host = "127.0.0.1"
 
 
 @app.route('/')
