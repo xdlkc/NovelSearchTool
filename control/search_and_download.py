@@ -1,5 +1,5 @@
 """
-起点小说网指定搜索内容搜索
+小说搜索模块
 """
 import os
 import re
@@ -10,19 +10,23 @@ from bs4 import BeautifulSoup
 from model.novel_struct import Novel
 
 
-# 查找小说
-def search_from_qidian(str):
+def search_from_qidian(name):
+    """
+    起点中文网查找小说 http://www.qidian.com/
+    :param name:
+    :return:
+    """
     novel = []
     page_count = 1
-    str_dir = r"{}/key/{}.txt".format(sys.path[0], str)
+    str_dir = r"{}/key/{}.txt".format(sys.path[0], name)
     if not os.path.exists(str_dir):
         fp = open(str_dir, 'w')
         flag = True
     else:
         fp = open(str_dir, 'r')
         flag = False
-    str = str.replace("\n", "").replace(" ", "")
-    base_url = "http://se.qidian.com/?kw=" + quote(str) + "&page="
+    name = name.replace("\n", "").replace(" ", "")
+    base_url = "http://se.qidian.com/?kw=" + quote(name) + "&page="
     url = base_url + "{}".format(page_count)
     while True:
         url = urlopen(url)
@@ -31,34 +35,30 @@ def search_from_qidian(str):
             break
         result = bs.find("div", {"class": "book-img-text"}).findAll("li")
         for i in result:
-            temp = i.find("h4").getText()
-            name = temp
-
-            temp = i.find("a", {"class": "name"}).getText("\n")
-            author = temp
-
-            temp = i.find("p", {"class": "author"}).findAll("a")[1].getText()
-            kind = temp
-
-            temp = i.find("img").attrs["src"]
-            pic = temp
-
-            temp = i.find("a").attrs["href"]
-            link = temp
-
-            temp = i.find("p", {"class": "author"}).findAll(
+            novel_name = i.find("h4").getText()
+            author = i.find("a", {"class": "name"}).getText("\n")
+            kind = i.find("p", {"class": "author"}).findAll("a")[1].getText()
+            pic = i.find("img").attrs["src"]
+            link = i.find("a").attrs["href"]
+            author_link = i.find("p", {"class": "author"}).findAll(
                 "a")[0].attrs["href"]
-            author_link = temp
             if flag:
                 fp.write(
                     "{} {} {} {} {} {}\n".format(
-                        name,
+                        novel_name,
                         author,
                         kind,
                         link,
                         pic,
                         author_link))
-            novel.append(Novel(name, author, kind, link, pic, author_link))
+            novel.append(
+                Novel(
+                    novel_name,
+                    author,
+                    kind,
+                    link,
+                    pic,
+                    author_link))
         if page_count == 10:
             break
         page_count += 1
@@ -67,8 +67,78 @@ def search_from_qidian(str):
     return novel
 
 
-# 查找某个小说的链接
+def search_from_other(name):
+    """
+    从其他小说资源网站上搜索小说 http://www.zhaoxiaoshuo.com/
+    :param name:
+    :return:
+    """
+    novel = []
+    page_count = 1
+    str_dir = r"{}/key/{}.txt".format(sys.path[0], name)
+    if not os.path.exists(str_dir):
+        fp = open(str_dir, 'w')
+        flag = True
+    else:
+        fp = open(str_dir, 'r')
+        flag = False
+    name = name.replace("\n", "").replace(" ", "")
+    main_url = "http://www.zhaoxiaoshuo.com"
+    base_url = "http://www.zhaoxiaoshuo.com/search?bookname=" + \
+        quote(name) + "&author=&page="
+    url = base_url + "{}".format(page_count)
+    while True:
+        url = urlopen(url)
+        bs = BeautifulSoup(url, "lxml")
+        if not bs.find("ul", {"class": "search_ul"}):
+            break
+        for fi in bs.find(
+            "ul", {
+                "class": "search_ul"}).findAll(
+            "li", {
+                "class": "padd"}):
+            link = main_url + fi.find("a").attrs['href']
+            novel_bs = BeautifulSoup(urlopen(url), "lxml")
+            novel_name = novel_bs.find("div", {"class": "r420"})
+            pic = main_url + novel_bs.find("div",
+                                           {"class": "con_lwrap"}).find("div",
+                                                                        {"class": "con_limg"}).find("img").attrs['src']
+            author = novel_bs.find("p", {"class": "author"}).find(
+                "span").getText("\n")
+            kind = " "
+            author_link = " "
+            if flag:
+                fp.write(
+                    "{} {} {} {} {} {}\n".format(
+                        novel_name,
+                        author,
+                        kind,
+                        link,
+                        pic,
+                        author_link))
+            novel.append(
+                Novel(
+                    novel_name,
+                    author,
+                    kind,
+                    link,
+                    pic,
+                    author_link))
+        if page_count == 10:
+            break
+        page_count += 1
+        url = base_url + "{}".format(page_count)
+    return novel
+
+
 def find_from_disk(key, name, author):
+    """
+    查找某个小说的链接
+    :param key:
+    :param name:
+    :param author:
+    :return:
+    """
     fp = open(r"{}.txt".format(key), 'r')
     for f in fp.readlines():
         l = f.split(" ", 7)
