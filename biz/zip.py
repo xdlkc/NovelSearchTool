@@ -8,8 +8,10 @@
 import os
 import zipfile
 import sys
+
+
 # 压缩小说
-def zipBook(name):
+def zip_book(name):
     dire = r'{}/static/books/{}'.format(sys.path[0], name)
     z = zipfile.ZipFile(dire + ".zip", 'w')
     if os.path.isdir(dire):

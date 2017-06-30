@@ -5,7 +5,7 @@ import json
 
 from flask import Flask, render_template, request
 from biz.json_tool import convert_to_json
-from biz.zip import zipBook
+from biz.zip import zip_book
 from control.search_and_download import *
 
 app = Flask(__name__)
@@ -18,6 +18,9 @@ host = "127.0.0.1"
 def index():
     return render_template('main.html')
 
+@app.route("/recommend.html")
+def recommend():
+    return render_template("")
 
 @app.route('/novel_search/<key>', methods=['POST'])
 def search_novel(key):
@@ -42,7 +45,7 @@ def do(key, author, name):
             novel = Novel(l[0], l[1], l[2], l[4], l[3], l[5])
             download(novel)
     fp.close()
-    zipBook(name)
+    zip_book(name)
     dire = "http://{}:{}/static/books/{}.zip".format(host, port, name)
     return render_template("download.html", dire=dire, name=name)
 
