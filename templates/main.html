@@ -1,6 +1,24 @@
 {% extends "base.html" %}
 {% block main %}
+<style>
 
+#menu1 a{
+    text-decoration: none;
+
+}
+
+html,body{
+    width: 100%;
+}
+#recommend{
+    position: relative;
+    height:200px;
+    width:100%;
+    overflow-x: visible;
+    overflow-y: scroll;
+}
+
+</style>
 <body>
 
 <div class="container">
@@ -51,7 +69,7 @@
     </form>
 </div>
 
-<div class="container tab_content">
+<div class="container tab_content" >
     <ul class="nav nav-tabs ">
         <li ><a data-toggle="tab" href="#">推荐</a></li>
         <li class="active"><a data-toggle="tab" href="#menu1">作者</a></li>
@@ -59,15 +77,16 @@
 
     </ul><hr>
 
-    <div class=" tab-content ">
+    <div class=" tab-content " id="recommend">
 
         <div id="menu1" class="tab-pane fade in active">
-            <h3>作者</h3>
-            <p>我们应该在这里推荐一些内容</p>
+
+{#            <h3>作者</h3>#}
+{#            <p>我们应该在这里推荐一些内容</p>#}
         </div>
         <div id="menu2" class="tab-pane fade">
-            <h3>类别</h3>
-            <p>我们应该在这里推荐一些内容</p>
+{#            <h3>类别</h3>#}
+{#            <p>我们应该在这里推荐一些内容</p>#}
         </div>
 
     </div>
@@ -79,6 +98,123 @@
         form.attr("action","/novel_search/"+content);
         console.log(form.attr("action"));
     }
+    var text;
+    //初始化json信息
+    !function be() {
+        var str="{{ recommend }}";
+    var str1=str.slice(1,str.length-1);
+    var result=str1.replace(/&#34;/g,"\"");
+    text=result.split("}");
+    for(var i=0;i<text.length;i++){
+        if(i==0){
+            var resu0=text[i].concat("}");
+
+            text[i]=resu0;
+        }
+        else if(i==text.length-1){
+            delete text[i];
+        }
+        else {
+            var resu=text[i].concat("}");
+            text[i]=resu.slice(1);
+        }
+    }
+    for(var i=0;i<text.length-1;i++){
+        var obj=JSON.parse(text[i]);
+        text[i]=obj;
+    }
+    }();
+    //推荐作者信息
+    !function author() {
+
+    var author=$('#menu1');
+    for(var i=0;i<text.length-1;i++){
+        var div=$('<div></div>');
+
+        var a=$('<a></a>');
+        a.attr("id","n-name");
+        a.css("font-size","20px");
+        a.text(text[i].name);
+        a.css("width","200px");
+        a.css("display","inline-block");
+        a.css("margin-right","20px")
+        a.attr("href",text[i].link);
+
+        var au=$('<a></a>');
+        au.attr("id","n-author");
+        au.text(text[i].author);
+        au.css("width","200px");
+        au.css("display","inline-block");
+        au.attr("href",text[i].author_link);
+        au.css("margin-right","20px");
+
+        var kind=$('<a></a>');
+        kind.attr("id","n-kind");
+        kind.text(text[i].kind);
+        kind.css("width","200px");
+        kind.css("display","inline-block");
+        kind.attr("href",text[i].pic);
+        kind.css("margin-right","20px");
+
+
+        div.append(a);
+        div.append(au);
+        div.append(kind);
+        author.append(div);
+    }
+    }();
+
+    !function type() {
+        var type=$("#menu2");
+        function compare(por) {
+            return function (a,b) {
+                var al=a[por];
+                var bl=b[por];
+                if(al<bl)
+                    return 1;
+                else if(al>bl)
+                    return -1;
+                else
+                    return 0;
+            }
+        }
+        var arr=text.sort(compare("kind"));//将json结果排序
+        for(var i=0;i<arr.length-1;i++){
+
+        var div=$('<div></div>');
+        var a=$('<a></a>');
+        a.attr("id","n-kind");
+        a.css("font-size","20px");
+        a.text(text[i].kind);
+        a.css("width","100px");
+        a.css("display","inline-block");
+        a.css("margin-right","20px")
+        a.attr("href",text[i].pic);
+
+        var au=$('<a></a>');
+        au.attr("id","n-name");
+        au.text(text[i].name);
+        au.css("width","200px");
+        au.css("display","inline-block");
+        au.attr("href",text[i].link);
+        au.css("margin-right","20px");
+
+        var kind=$('<a></a>');
+        kind.attr("id","n-author");
+        kind.text(text[i].author);
+        kind.css("width","200px");
+        kind.css("display","inline-block");
+        kind.attr("href",text[i].author_link);
+        kind.css("margin-right","20px");
+
+
+        div.append(a);
+        div.append(au);
+        div.append(kind);
+        type.append(div);
+        }
+
+    }();
 </script>
 
 </body>
