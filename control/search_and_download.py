@@ -1,6 +1,7 @@
 """
 小说搜索模块
 """
+
 import os
 import re
 import sys
@@ -42,6 +43,7 @@ def search_from_qidian(name):
             link = i.find("a").attrs["href"]
             author_link = i.find("p", {"class": "author"}).findAll(
                 "a")[0].attrs["href"]
+        try:
             if flag:
                 fp.write(
                     "{} {} {} {} {} {}\n".format(
@@ -59,6 +61,12 @@ def search_from_qidian(name):
                     link,
                     pic,
                     author_link))
+        except UnicodeEncodeError as e:
+            print(author_link)
+            print(novel_name)
+            print(kind)
+            print(pic)
+            print()
         if page_count == 10:
             break
         page_count += 1

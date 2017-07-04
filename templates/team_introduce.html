@@ -1,28 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>信息</title>
-    <link rel="shortcut  icon" type="image/x-icon" href="{{url_for('static',filename='book.ico')}}" media="screen"  />
-    <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
-    <script src="{{url_for('static',filename='jquery-3.2.0.min.js')}}"></script>
-    <script src=".{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
-
-    <style>
-        .zjb{
-            width: 325px;
-            height:50px;
-            font-family: 楷体;
-            font-size: 35px;
-            margin: auto;
-        }
-        #lmb{
-            background: greenyellow;
-        }
-    </style>
-</head>
-<body>
-
+{% extends "base.html" %}
+{% block main %}
 <div class="container" >
     <div class="row clearfix" >
         <div class="col-md-12 column">
@@ -66,5 +43,4 @@
     </div>
 </div>
 
-</body>
 </html>

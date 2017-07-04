@@ -5,7 +5,7 @@
     <link rel="shortcut  icon" type="image/x-icon" href="{{url_for('static',filename='book.ico')}}" media="screen"  />
     <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
     <script src="{{url_for('static',filename='jquery-3.2.0.min.js')}}"></script>
-    <script src=".{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
     <style>
         .img1{
 
@@ -22,13 +22,13 @@
 
     </style>
 </head>
-<body>
+<body style="font-family: 楷体">
 
 {% block main%}
 {% endblock %}
 
 <footer style="text-align: center; margin-top: 4%;margin-bottom: 20px">
-      ©  Copyrigh2017年4月22号 designed by NST
+      ©  Copyright2017年4月22号 designed by NST
 </footer>
 
 </body>
