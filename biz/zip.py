@@ -16,6 +16,7 @@ def zip_book(name):
     print("test,hahaha")
     print("oooo")
 
+
     dire = r'{}/static/books/{}'.format(sys.path[0], name)
     z = zipfile.ZipFile(dire + ".zip", 'w')
     if os.path.isdir(dire):
