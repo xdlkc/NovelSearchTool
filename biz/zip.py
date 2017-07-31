@@ -14,7 +14,7 @@ import sys
 def zip_book(name):
 
     print("test,hahaha")
-    print("为什么合并撤销不了....")
+    print("lalala")
 
     dire = r'{}/static/books/{}'.format(sys.path[0], name)
     z = zipfile.ZipFile(dire + ".zip", 'w')
