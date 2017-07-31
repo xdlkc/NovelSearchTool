@@ -13,7 +13,7 @@ import sys
 # 压缩小说
 def zip_book(name):
 
-    print("test,hahaha")
+    print("master,hahaha")
     print("lalala")
 
     dire = r'{}/static/books/{}'.format(sys.path[0], name)
