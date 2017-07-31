@@ -12,11 +12,9 @@ import sys
 
 # 压缩小说
 def zip_book(name):
-<<<<<<< HEAD
-    print("test,hahaha")
-=======
-    print("is master hahahah")
->>>>>>> master
+
+    print("merge,hahaha")
+
     dire = r'{}/static/books/{}'.format(sys.path[0], name)
     z = zipfile.ZipFile(dire + ".zip", 'w')
     if os.path.isdir(dire):
